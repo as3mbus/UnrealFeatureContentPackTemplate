@@ -1,126 +1,143 @@
 # Unreal Content & Feature Pack Template
 
-This project is a starter template for building a custom Unreal Engine **Content Pack** (`.upack`) that appears in the **Add Feature or Content Pack** dialog.
+This project is a starter template for building a custom Unreal Engine Content Pack (`.upack`) that appears in the Add Feature or Content Pack dialog.
 
-## Quick Action CheckList
+## Quick Action Checklist
 
-1. [ ] fill out `PackageContent` directory (Content / Source)
-2. [ ] modify `PackageContent/manifest.json`
-3. [ ] (Optional) fill out Samples file and modify `PackageContent/Config/config.ini`
-4. [ ] execute CreatePak.bat
-5. [ ] copy resulting `.upack` file to `UNREAL_ENGINE_PATH/FeaturePacks` 
-   1. [ ] (Optional) also Copy `Samples` folder to `UNREAL_ENGINE_PATH/Samples` 
+1. [ ] Put assets in `PackageContent/Content` (and optional C++ in `PackageContent/Source`)
+2. [ ] Update `PackageContent/manifest.json`
+3. [ ] (Optional) Update `PackageContent/Config/config.ini` and `Samples/`
+4. [ ] Run `CreatePak.ps1` (or `CreatePak.bat`)
+5. [ ] Copy generated `.upack` to `UNREAL_ENGINE_PATH/FeaturePacks`
+6. [ ] (Optional) Copy `Samples/` to `UNREAL_ENGINE_PATH/Samples`
 
-## What this template contains
+## Project Structure
 
-- `PackageContent`
-
-  Root Directory for unreal package content
+- `PackageContent/`
+  - Root directory for pack metadata and packaged content.
 - `PackageContent/Content/`
-  
-  Put your Unreal assets here (`.uasset`, `.umap`, etc.).
+  - Put your Unreal assets here (`.uasset`, `.umap`, etc.).
 - `PackageContent/Source/`
-
-  Put your Unreal C++ assets here (Module definition and codes)
-- `PackageContent/manifest.json`  
-  
-  Metadata shown in the Unreal Editor (name, description, thumbnail, tags).
-- `PackageContent/Config/config.ini`  
-  
-  Tells Unreal on which file to add based on engine directory
-- `PackageContent/Media/`  
-
-  Preview images referenced by `manifest.json`.
+  - Optional Unreal C++ source files.
+- `PackageContent/manifest.json`
+  - Metadata shown in Unreal Editor (name, description, tags, preview images).
+- `PackageContent/Config/config.ini`
+  - config modification usually used for additional files from samples folder or input binding
+- `PackageContent/Media/`
+  - Images referenced by `manifest.json` (`Thumbnail`, `Screenshots`).
 - `CreatePak.ps1`
-
-  Packaged Command used to run `UnrealPak.exe`.
-- `FeaturePacks/`  
-  
-  Default Output folder for the generated `.upack` file. (following unreal engine directory format)
+  - PowerShell script that runs `UnrealPak.exe` and builds the `.upack`.
+- `CreatePak.bat`
+  - Batch wrapper to run pack creation flow.
+- `FeaturePacks/`
+  - Default Output folder for generated `.upack` files.
 - `Samples/MyContentPack/Content/`
-  
-  Put your general unpacked Unreal assets here (`.uasset`, `.umap`, etc.).
+  - Optional shared/sample assets for config-driven inclusion.
 
 ## Prerequisites
 
-- Unreal Engine installed (same major version you want to support).
-- Access to `UnrealPak.exe`, usually at:  
-	`C:\Program Files\Epic Games\UE_5.x\Engine\Binaries\Win64\UnrealPak.exe`
-- Your content already migrated into this template under:  
-	`Samples/MyContentPack/Content/`
+- Unreal Engine installed (target engine version).
+- Access to `UnrealPak.exe`, usually:
+  - `C:\Program Files\Epic Games\UE_5.x\Engine\Binaries\Win64\UnrealPak.exe`
 
-## Step-by-step: Create your content pack
+## Build Steps
 
-### 1) Add your content
+1. Add content to `PackageContent/Content`.
+2. Update metadata in `PackageContent/manifest.json`.
+3. If using shared assets, update `PackageContent/Config/config.ini` paths and place assets in `Samples/...`.
+4. Run:
+   - `CreatePak.ps1`, or
+   - `CreatePak.bat`
+5. Confirm output file exists in `FeaturePacks/`.
 
-Copy your pack assets into: `PackageContent/Content`
+## Install Into Unreal Engine
 
-if you plan to have multiple content pack reusing common asset you can use `Samples` folder to contain general asset to be added when a pack is added into your project
+1. Copy generated `.upack` into your engine `FeaturePacks` folder:
+   - `C:\Program Files\Epic Games\UE_5.x\FeaturePacks\`
+2. If used, also copy your `Samples` content into engine `Samples` folder.
+3. In Unreal Editor: Add → Add Feature or Content Pack.
 
-put your assets in `Samples/MyContentPack/Content/`
-and update `PackageContent/Config/config.ini` to include the file you plan to add into the package content
+## `manifest.json` Property Reference
 
-### 2) Update pack metadata
+Current template file: `PackageContent/manifest.json`
 
-Edit `ContentSettings/manifest.json`:
-
-- `Name[].Text` → Display name in Unreal UI
-- `Description[].Text` → Short description
-- `SearchTags[].Text` → Search keywords
-- `Thumbnail` → File name in `ContentSettings/Media/`
-- `Screenshots` → File names in `ContentSettings/Media/`
-
-Example media files expected by current template:
-
-- `MyContentpack.png`
-- `MyContentpack_Preview.png`
-
-Place those files in `ContentSettings/Media/` (or change names in `manifest.json`).
-
-### 3) Verify included file paths
-
-Check `ContentSettings/Config/config.ini`:
-
-```ini
-[AdditionalFilesToAdd]
-+Files=Samples/MyContentPack/Content/*.*
+```json
+{
+  "Version": 1,
+  "Name": [{ "Language": "en", "Text": "MyContentPack" }],
+  "Description": [{ "Language": "en", "Text": "Content for Tutorial" }],
+  "AssetTypes": [],
+  "SearchTags": [{ "Language": "en", "Text": "Content for Tutorial" }],
+  "ClassTypes": "",
+  "Category": "Content",
+  "Thumbnail": "MyContentpack.png",
+  "Screenshots": ["MyContentpack_Preview.png"]
+}
 ```
 
-If you renamed folders, update this path accordingly.
+### Top-level properties
 
-### 4) Build the `.upack`
+- `Version` (number)
+  - Manifest schema version.
+  - Use `1` for this template.
 
-1. Execute CreatePak.bat
-2. fill out given prompt
-   1. Specific Unreal Engine Version Directory Path
-   2. resulting UPack files path
+- `Name` (array of localized text objects)
+  - Display name shown in Add Feature or Content Pack UI.
+  - Supports localization using multiple language entries.
 
-## Install the pack into Unreal Engine
+- `Description` (array of localized text objects)
+  - Description shown in pack details.
+  - Keep concise and user-facing.
 
-Copy the generated `.upack` into your engine FeaturePacks directory, for example:
+- `AssetTypes` (array)
+  - Optional grouping labels for asset categories.
+  - Can be left empty (`[]`) if not used.
 
-`C:\Program Files\Epic Games\UE_5.x\FeaturePacks\`
+- `SearchTags` (array of localized text objects)
+  - Keywords used by Unreal search in the pack dialog.
+  - Add relevant terms to improve discoverability.
 
-If you are using `Samples` Folder also copy the path to Unreal Engine `Samples` folder directory so it can be included based on config path written
+- `ClassTypes` (string)
+  - Optional class filter string.
+  - Leave empty (`""`) unless your workflow requires class-based filtering.
 
-Then in Unreal Editor:
+- `Category` (string)
+  - UI category label for the pack.
+  - Typical value: `"Content"`.
 
-1. Open/create a project.
-2. Use **Add** → **Add Feature or Content Pack**.
-3. Find your pack by `Name`/thumbnail from `manifest.json`.
-4. Add it to the project.
+- `Thumbnail` (string)
+  - Main preview image filename.
+  - File must exist in `PackageContent/Media/`.
 
-## Optional customization
+- `Screenshots` (array of strings)
+  - Additional preview image filenames.
+  - Files must exist in `PackageContent/Media/`.
 
-- Rename `MyContentPack` folder and `.upack` output to your product name.
-- Localize `manifest.json` by adding more language entries.
-- Add more screenshots in `ContentSettings/Media/` and list them in `Screenshots`.
+### Localized text object format
+
+Used by `Name`, `Description`, and `SearchTags` entries:
+
+- `Language` (string)
+  - Locale code (for example: `"en"`, `"ko"`, `"ja"`).
+- `Text` (string)
+  - Displayed text for that locale.
+
+Example with multiple languages:
+
+```json
+"Name": [
+  { "Language": "en", "Text": "MyContentPack" },
+  { "Language": "ko", "Text": "마이 콘텐츠 팩" }
+]
+```
 
 ## Troubleshooting
 
 - Pack does not appear in Unreal:
-  - Verify `.upack` is in the correct `FeaturePacks` folder for the engine version you launched.
-  - Validate `manifest.json` syntax (valid JSON, no trailing commas).
+  - Confirm `.upack` is copied to the same engine version `FeaturePacks` folder.
+  - Validate JSON syntax in `PackageContent/manifest.json`.
 - Missing preview image:
-  - Ensure file names in `manifest.json` exactly match files in `ContentSettings/Media/`.
+  - Ensure `Thumbnail` and `Screenshots` filenames exactly match files in `PackageContent/Media/`.
+- Build script fails:
+  - Verify Unreal Engine path and `UnrealPak.exe` location.
 
