@@ -103,7 +103,7 @@ Current template file: `PackageContent/manifest.json`
 
 - `Category` (string)
   - UI category label for the pack.
-  - Typical value: `"Content"`.
+  - Typical value: `"Content"`,`"BlueprintFeature"`,`"CodeFeature"`
 
 - `Thumbnail` (string)
   - Main preview image filename.
