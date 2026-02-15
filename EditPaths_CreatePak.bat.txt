@@ -1,2 +1,0 @@
-"YOUR_ENGINE_PATH\UE_5.0\Engine\Binaries\Win64\UnrealPak.exe" -Create="YOUR_FOLDER_PATH\ContentPack\ContentToPack.txt" "YOUR_FOLDER_PATH\ContentPack\FeaturePacks\MyContentPack.upack"
-@pause
