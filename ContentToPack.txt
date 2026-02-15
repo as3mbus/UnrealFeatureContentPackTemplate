@@ -1,3 +1,0 @@
-"YOUR_FOLDER_PATH\ContentPack\ContentSettings\Config\"
-"YOUR_FOLDER_PATH\ContentPack\ContentSettings\Media\"
-"YOUR_FOLDER_PATH\ContentPack\ContentSettings\manifest.json"
