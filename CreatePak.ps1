@@ -20,7 +20,7 @@ Function Get-Folder($initialDirectory="")
     return $folder
 }
 
-$OutputName = "ContentPack.pak"
+$OutputName = "ContentPack"
 $root = $PSScriptRoot
 $ConfigPath = "./EngineDirectory.txt"
 $content = Join-Path $root "PackageContent"
@@ -87,6 +87,10 @@ else
 
 
 # Build the pak file using UnrealPak.exe
+Write-Host "Building pak file..." -ForegroundColor Cyan
+Write-Host "Engine Directory : $engineDirectory"
+Write-Host "$UnrealPakPath -create $output $content"
+
 Push-Location $root
 & $UnrealPakPath -create $output "$content\"
 $err = $LASTEXITCODE
