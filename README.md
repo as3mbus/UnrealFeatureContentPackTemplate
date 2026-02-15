@@ -141,3 +141,32 @@ Example with multiple languages:
 - Build script fails:
   - Verify Unreal Engine path and `UnrealPak.exe` location.
 
+## References
+
+> **<u>📘 [Creating a Custom Content Pack](https://dev.epicgames.com/community/learning/courses/Ra5/unreal-engine-using-tools-templates-and-packs-to-improve-your-editor-workflows/O74/creating-a-custom-content-pack) </u>**
+>
+> *Learn how to create and use reusable Content Packs in Unreal Engine to improve your workflow.*
+
+> 📺 **<u> [Unreal Engine 5 Tutorial - Custom Content Packs](https://www.youtube.com/watch?v=ladkxp5K0qk) </u>**
+>
+> *A video tutorial showing how to export and package custom Content Packs for use in other UE5 projects.*
+
+> 📘 **<u>[Unreal Engine — Creating an Asset Pack / Feature Pack](https://dev.epicgames.com/community/learning/tutorials/Xjy9/unreal-engine-creating-an-asset-pack-feature-pack)</u>**
+>
+> *A Community tutorial showing how to create and organize an Asset Pack / Feature Pack in Unreal Engine for reuse across projects.*
+
+> 📺 **<u>[Unreal Engine 5 – Creating an Asset Pack / Feature Pack (Tutorial)](https://www.youtube.com/watch?v=h7tImSnsAI4)</u>**
+>
+> *A video walkthrough on building and exporting an Asset Pack / Feature Pack in Unreal Engine 5 for reusable workflows.*
+
+### Extracting Unreal Built in Content / Feature Pack
+
+``` text
+"E:\EpicGames\UE_4.27\Engine\Binaries\Win64\UnrealPak.exe" -extract "E:\EpicGames\UE_4.27\FeaturePacks\TP_Puzzle.upack" "E:\Tmp\Pack"
+```
+
+``` Text
+"E:\EpicGames\UE_4.27\Engine\Binaries\Win64\UnrealPak.exe" -Create=E:\Tmp\Pack\" "E:\EpicGames\UE_4.27\FeaturePacks\TP_Puzzle.upack"
+```
+
+> Unreal updated unreal.pak behavior in version 5.5 (?) it now require files that contain list of path to pack 
